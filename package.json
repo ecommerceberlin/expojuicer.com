@@ -1,0 +1,54 @@
+{
+  "name": "targiehandlu-site",
+  "version": "2.0.0",
+  "description": "site",
+  "main": "pages/index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "dev": "NODE_OPTIONS=--max_old_space_size=8192 next dev",
+    "build": "next build",
+    "lint": "next lint",
+    "start": "NODE_OPTIONS=--max_old_space_size=8192 next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecommerceberlin/targiehandlu.pl.git"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
+  "author": "adam zygadlewicz <adam.zygadlewicz@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ecommerceberlin/targiehandlu.pl/issues"
+  },
+  "homepage": "https://github.com/ecommerceberlin/targiehandlu.pl#readme",
+  "dependencies": {
+    "@material-ui/icons": "^4.11.2",
+    "@sentry/nextjs": "^6.13.2",
+    "eventjuicer-site-components": "4.3.10",
+    "next": "11.1.2",
+    "next-transpile-modules": "^8.0.0",
+    "raw-loader": "^4.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 10",
+    "not op_mini all"
+  ]
+}
