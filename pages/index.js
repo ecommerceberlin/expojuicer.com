@@ -6,7 +6,8 @@ import {
   Exhibitor,
   reduxWrapper,
   configure,
-  useDatasource
+  useDatasource,
+  get
 } from 'eventjuicer-site-components';
 
 import {useRouter} from 'next/router'  
@@ -54,7 +55,7 @@ const PageAdminReport = () => {
 
  return (<Wrapper>{data.map(exhibitor => (
 
-<div>{exhibitor.profile.name}</div>
+<div key={exhibitor.id}>{get(exhibitor, "profile.name", exhibitor.slug)}</div>
 
  ))}</Wrapper>)
 
