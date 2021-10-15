@@ -1,26 +1,29 @@
 import {
   connect,
   Wrapper,
-  MyTypography as Text,
-  TwoColsLayout,
-  Exhibitor,
   reduxWrapper,
   configure,
   useDatasource,
-  get
+  get,
+  map,
+  Box,
+  Typography
 } from 'eventjuicer-site-components';
 
 import {useRouter} from 'next/router'  
 
 const settings = require('../settings').default;
 
-
 const PageAdminReport = () => {
 
-  const data = useDatasource({resource: "exhibitors2"})
+  const data = useDatasource({resource: "exhibitors2", filters:{
+    sort : "profile.name"
+  }})
   
   const {query, asPath} = useRouter();
   
+
+
   console.log(data, asPath)
   
   //parse params!
@@ -53,11 +56,14 @@ const PageAdminReport = () => {
 
 
 
- return (<Wrapper>{data.map(exhibitor => (
+  return (<Wrapper first={true}>{data.map((exhibitor) => {
 
-<div key={exhibitor.id}>{get(exhibitor, "profile.name", exhibitor.slug)}</div>
+    const purchases = get(exhibitor, 'instances', []).filter(p => parseInt(p.sold));
+    const selectedBoothNames = map(purchases, 'formdata.ti').filter(v => v && v.length);
 
- ))}</Wrapper>)
+    return (<Box m={1} p={2} border={1} bgcolor="#eaeaea" key={exhibitor.id}>{get(exhibitor, "profile.name", exhibitor.slug)} {selectedBoothNames}</Box>)
+
+  })}</Wrapper>)
 
 }
 

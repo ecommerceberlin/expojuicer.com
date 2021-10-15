@@ -34,31 +34,20 @@ module.exports = withSentryConfig(withTM({
 
       config.resolve.alias['react'] = path.resolve(__dirname, '.', 'node_modules', 'react');
 
-
       config.module.rules.push({
         test: /\.md$/,
         use: 'raw-loader',
       });
-
-  
+      
       return config
     },
 
     i18n: {
       locales: ['en','pl'],
       defaultLocale: 'pl',  
-      domains: [
-        {
-        domain: 'promo.targiehandlu.pl',
-        defaultLocale: 'pl',
-      },
-      {
-        domain: 'promo.ecommercewarsaw.com',
-        defaultLocale: 'en',
-      }],
     },
 
-  
+   
   
   }), SentryWebpackPluginOptions);
 
