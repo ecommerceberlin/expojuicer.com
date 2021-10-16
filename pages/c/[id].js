@@ -12,7 +12,8 @@ Avatar,
 resizeCloudinaryImage,
 Grid,
 makeStyles,
-Typography
+Typography,
+get
 } from 'eventjuicer-site-components';
 
 import settings from '../../settings';
@@ -38,7 +39,6 @@ const useStyles = makeStyles(theme => ({
 const PageCompany = ({company, id}) => {
 
   const [translate] = useTranslate()
-  const {profile:{logotype_cdn}} = company
   const classes = useStyles()
 
   useEffect(() => {
@@ -48,13 +48,17 @@ const PageCompany = ({company, id}) => {
     }
   })
 
+  if(!company){
+    return null
+  }
+
   return (
   <Wrapper first={true}>
   <Box m={8}>
   <Grid className={classes.root} container direction="column" justifyContent="center" alignItems="center">
   <Grid item><Typography variant="h4">Ready!</Typography></Grid>
   <Grid item>
-    <Avatar variant="square" src={ resizeCloudinaryImage(logotype_cdn, 300, 300) } classes={{
+    <Avatar variant="square" src={ resizeCloudinaryImage(get(company, "profile.logotype_cdn"), 300, 300) } classes={{
               root:classes.avatarContainer,
               img: classes.avatarImg
     }}/>

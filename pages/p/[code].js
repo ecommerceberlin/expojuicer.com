@@ -11,7 +11,8 @@ Typography,
 Box,
 makeStyles,
 CircularProgress,
-Button
+Button,
+useRouter
 } from 'eventjuicer-site-components';
 
 import settings from '../../settings';
@@ -53,6 +54,8 @@ const CodeScanned = ({code}) => {
     const [company_id, setCompanyId] = useState(null)
     const [comment, setComment] = useState("")
     const [synced, setSynced] = useState(null)
+    const [commentSynced, setCommentSynced] = useState(null)
+    const {push} = useRouter()
 
     useEffect(()=>{
         const company_id = lsGet("company_id")
@@ -79,27 +82,38 @@ const CodeScanned = ({code}) => {
             const sync = await send({code, company_id, comment})
             if("data" in sync){
                 setComment("")
+                setCommentSynced(true)
+                setTimeout(() => setCommentSynced(null), 3000)
             }
         }
     };
 
-    if(!synced){
+    if(!company_id){
+        return (<Wrapper><Box m={10}>
+        <Typography variant="h6" gutterBottom>
+        Who are you? Please <a href="/" onClick={()=>push("/")}>go to homepage</a> and choose your brand name.
+        </Typography>
+        </Box></Wrapper>)
+    }
+
+    if(company_id && !synced){
         return (<Wrapper><Box m={10}><CircularProgress size="10rem" /></Box></Wrapper>)
     }
 
     return (<Wrapper>
         <Box>
+            <Typography variant="h6" gutterBottom>{commentSynced ? `Saved!`: `Contact saved. Comment?`}</Typography>
             <TextField 
                 className={classes.comment} 
                 id="comment" 
-                label="Name" 
+                label="Type comment here" 
                 value={comment} 
                 onChange={handleChange} 
                 variant="outlined" 
                 fullWidth
                 multiline
                 maxRows={4} 
-            />
+            /><br />
             <Button 
                 onClick={handleSendComment} 
                 variant="contained" 
