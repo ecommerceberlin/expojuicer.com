@@ -6,6 +6,7 @@ reduxWrapper,
 Wrapper,
 MyButton as Button,
 lsSet,
+lsGet,
 Box,
 useTranslate,
 Avatar,
@@ -13,7 +14,8 @@ resizeCloudinaryImage,
 Grid,
 makeStyles,
 Typography,
-get
+get,
+useRouter
 } from 'eventjuicer-site-components';
 
 import settings from '../../settings';
@@ -40,11 +42,17 @@ const PageCompany = ({company, id}) => {
 
   const [translate] = useTranslate()
   const classes = useStyles()
+  const {push} = useRouter()
 
   useEffect(() => {
+    const unsaved = lsGet("unsaved")
 
     if(id > 0){
       lsSet("company_id", id)
+      if(unsaved){
+        lsSet("unsaved", null)
+        push(`/p/${unsaved}`)
+      }
     }
   })
 

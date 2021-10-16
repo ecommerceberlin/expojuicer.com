@@ -5,6 +5,7 @@ configure,
 reduxWrapper,
 Wrapper,
 lsGet,
+lsSet,
 useTranslate,
 TextField,
 Typography,
@@ -61,6 +62,8 @@ const CodeScanned = ({code}) => {
         const company_id = lsGet("company_id")
         if(company_id > 0){
             setCompanyId(company_id)
+        }else{
+            lsSet("unsaved", code)
         }
     })
 
