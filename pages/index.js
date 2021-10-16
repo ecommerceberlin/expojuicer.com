@@ -7,63 +7,30 @@ import {
   get,
   map,
   Box,
-  Typography
+  Typography,
+  List
 } from 'eventjuicer-site-components';
 
 import {useRouter} from 'next/router'  
 
 const settings = require('../settings').default;
 
-const PageAdminReport = () => {
+const ListOfExhbitors = () => {
 
   const data = useDatasource({resource: "exhibitors2", filters:{
     sort : "profile.name"
   }})
   
-  const {query, asPath} = useRouter();
-  
+
+const getBooths = (exhibitor) => map(get(exhibitor, 'instances', []).filter(p => parseInt(p.sold)), 'formdata.ti').filter(v => v && v.length).join(", ");
 
 
-  console.log(data, asPath)
-  
-  //parse params!
-  
-//   const { query } = props;
-//   const { range, sort, service } = query;
-
-//   const sorting = sort === 'booth' ? 'profile.booth' : 'company.name';
-
-//   let _filter =
-//     range && range.length > 0
-//       ? function(item) {
-//           return (
-//             'booth' in item.profile &&
-//             item.profile.booth &&
-//             range.split(',').includes(item.profile.booth.trim().charAt(0))
-//           );
-//         }
-//       : function() {
-//           return true;
-//         };
-
-//   const filterByService = function(item) {
-//     return (
-//       'purchases' in item &&
-//       Array.isArray(item.purchases) &&
-//       item.purchases.filter(p => p.role === 'service_' + service).length
-//     );
-//   };
-
-
-
-  return (<Wrapper first={true}>{data.map((exhibitor) => {
-
-    const purchases = get(exhibitor, 'instances', []).filter(p => parseInt(p.sold));
-    const selectedBoothNames = map(purchases, 'formdata.ti').filter(v => v && v.length);
-
-    return (<Box m={1} p={2} border={1} bgcolor="#eaeaea" key={exhibitor.id}>{get(exhibitor, "profile.name", exhibitor.slug)} {selectedBoothNames}</Box>)
-
-  })}</Wrapper>)
+return (<Wrapper title="Click on your brand name to sign in." first={true}><List 
+  data={data} 
+  primary={(exhibitor) => get(exhibitor, "profile.name", exhibitor.slug)} 
+  secondary={(exhibitor) => `${getBooths(exhibitor)}`}
+  link={(exhibitor) => `/c/${exhibitor.id}`}
+  /></Wrapper>)
 
 }
 
@@ -77,4 +44,4 @@ export const getStaticProps = reduxWrapper.getStaticProps(async (props) => {
   })
 })
 
-export default connect()(PageAdminReport);
+export default connect()(ListOfExhbitors);

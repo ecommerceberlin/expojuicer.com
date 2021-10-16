@@ -7,28 +7,62 @@ Wrapper,
 MyButton as Button,
 lsSet,
 Box,
-useTranslate
+useTranslate,
+Avatar,
+resizeCloudinaryImage,
+Grid,
+makeStyles,
+Typography
 } from 'eventjuicer-site-components';
-
 
 import settings from '../../settings';
 
+const useStyles = makeStyles(theme => ({ 
+  
+  root : {
+    maxWidth: 600
+  },
+  avatarContainer: {
+    minHeight: 300,
+    minWidth: 300,
+  },
+  avatarImg: {
+    objectFit: "contain",
+    maxHeight: "80%",
+    maxWidth: "80%",
+  },
+}));
 
-const PageCompany = ({id}) => {
 
-const [translate] = useTranslate()
 
-useEffect(() => {
+const PageCompany = ({company, id}) => {
 
-  lsSet("company_id", id)
+  const [translate] = useTranslate()
+  const {profile:{logotype_cdn}} = company
+  const classes = useStyles()
 
-})
+  useEffect(() => {
 
-return (
-<Wrapper first={true}>
-<Box>{translate("good_to_go")}{id}</Box>
-</Wrapper>
-);
+    if(id > 0){
+      lsSet("company_id", id)
+    }
+  })
+
+  return (
+  <Wrapper first={true}>
+  <Box m={8}>
+  <Grid className={classes.root} container direction="column" justifyContent="center" alignItems="center">
+  <Grid item><Typography variant="h4">Ready!</Typography></Grid>
+  <Grid item>
+    <Avatar variant="square" src={ resizeCloudinaryImage(logotype_cdn, 300, 300) } classes={{
+              root:classes.avatarContainer,
+              img: classes.avatarImg
+    }}/>
+    </Grid>
+  </Grid>
+  </Box>
+  </Wrapper>
+  );
 
 }
 
@@ -38,15 +72,18 @@ return (
 export const getServerSideProps = reduxWrapper.getServerSideProps(async (props) => {
 
   const {params:{id}} = props;
-
+  const resource = `companies/${id}`
+  
    await configure(props, {
     settings : settings,
-    preload : []
+    preload : [resource]
   })
 
-  return { props : {id}}
+  return { props : {id, resource}}
 
 })
 
 
-export default connect()(PageCompany);
+export default connect((state, props)=>({
+  company: props.resource in state.resources? state.resources[props.resource]: {}
+}))(PageCompany);

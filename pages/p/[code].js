@@ -84,13 +84,27 @@ const CodeScanned = ({code}) => {
     };
 
     if(!synced){
-        return (<Wrapper><CircularProgress size="10rem" /></Wrapper>)
+        return (<Wrapper><Box m={10}><CircularProgress size="10rem" /></Box></Wrapper>)
     }
 
     return (<Wrapper>
         <Box>
-            <TextField className={classes.comment} id="comment" label="Name" value={comment} onChange={handleChange} variant="outlined" fullWidth />
-            <Button onClick={handleSendComment} variant="contained" color="primary">send</Button>
+            <TextField 
+                className={classes.comment} 
+                id="comment" 
+                label="Name" 
+                value={comment} 
+                onChange={handleChange} 
+                variant="outlined" 
+                fullWidth
+                multiline
+                maxRows={4} 
+            />
+            <Button 
+                onClick={handleSendComment} 
+                variant="contained" 
+                color="primary">Send Comment
+            </Button>
         </Box>
     </Wrapper>);
 
