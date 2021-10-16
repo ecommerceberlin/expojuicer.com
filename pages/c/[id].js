@@ -56,9 +56,6 @@ const PageCompany = ({company, id}) => {
     }
   })
 
-  if(!company){
-    return null
-  }
 
   return (
   <Wrapper first={true}>
@@ -66,10 +63,10 @@ const PageCompany = ({company, id}) => {
   <Grid className={classes.root} container direction="column" justifyContent="center" alignItems="center">
   <Grid item><Typography variant="h4">Ready!</Typography></Grid>
   <Grid item>
-    <Avatar variant="square" src={ resizeCloudinaryImage(get(company, "profile.logotype_cdn"), 300, 300) } classes={{
+    {company && <Avatar variant="square" src={ resizeCloudinaryImage(get(company, "profile.logotype_cdn"), 300, 300) } classes={{
               root:classes.avatarContainer,
               img: classes.avatarImg
-    }}/>
+    }}/>}
     </Grid>
   </Grid>
   </Box>
