@@ -91,7 +91,7 @@ const CodeScanned = ({code}) => {
     if(!company_id){
         return (<Wrapper><Box m={10}>
         <Typography variant="h6" gutterBottom>
-        Who are you? Please <a href="/" onClick={()=>push("/")}>go to homepage</a> and choose your brand name.
+        Who are you? Please <a href="/" onClick={()=>push("/")}>go to the homepage</a> and choose your brand name.
         </Typography>
         </Box></Wrapper>)
     }
