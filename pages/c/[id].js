@@ -18,6 +18,8 @@ get,
 useRouter
 } from 'eventjuicer-site-components';
 
+import Link from 'next/link'
+
 import settings from '../../settings';
 
 const useStyles = makeStyles(theme => ({ 
@@ -61,12 +63,16 @@ const PageCompany = ({company, id}) => {
   <Wrapper first={true}>
   <Box m={8}>
   <Grid className={classes.root} container direction="column" justifyContent="center" alignItems="center">
-  <Grid item><Typography variant="h4">Ready!</Typography></Grid>
   <Grid item>
     {company && <Avatar variant="square" src={ resizeCloudinaryImage(get(company, "profile.logotype_cdn"), 300, 300) } classes={{
               root:classes.avatarContainer,
               img: classes.avatarImg
     }}/>}
+    </Grid>
+    <Grid item>
+      <Typography variant="h4">Ready!</Typography>
+      <Typography variant="overline"><Link href="/">Back to company selection</Link></Typography>
+
     </Grid>
   </Grid>
   </Box>
