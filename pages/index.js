@@ -10,7 +10,7 @@ import {
   Typography,
   List
 } from 'eventjuicer-site-components';
-
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import {useRouter} from 'next/router'  
 
 const settings = require('../settings').default;
@@ -25,11 +25,14 @@ const ListOfExhbitors = () => {
 const getBooths = (exhibitor) => map(get(exhibitor, 'instances', []).filter(p => parseInt(p.sold)), 'formdata.ti').filter(v => v && v.length).join(", ");
 
 
-return (<Wrapper title="Click on your brand name to sign in." first={true}><List 
+return (<Wrapper title="Choose your brand name to sign in." first={true}><List 
   data={data} 
   primary={(exhibitor) => get(exhibitor, "profile.name", exhibitor.slug)} 
   secondary={(exhibitor) => `${getBooths(exhibitor)}`}
   link={(exhibitor) => `/c/${exhibitor.id}`}
+  renderListItemAsButton={false}
+  linkButtonIcon={<ArrowForwardIcon />}
+  linkButtonText="Sign In"
   /></Wrapper>)
 
 }
