@@ -1,31 +1,33 @@
 import React, {useEffect, useState} from 'react'
 import {
-connect,
-configure,
-reduxWrapper,
-Wrapper,
-lsGet,
-lsSet,
-useTranslate,
-TextField,
-Typography,
-Box,
-makeStyles,
-CircularProgress,
-Button,
-useRouter
+    connect,
+    configure,
+    reduxWrapper,
+    Wrapper,
+    lsGet,
+    lsSet,
+    useTranslate,
+    TextField,
+    Typography,
+    Box,
+    makeStyles,
+    CircularProgress,
+    Button,
+    useRouter,
+    Grid
 } from 'eventjuicer-site-components';
 
+
+import ScanOwner from '../../components/ScanOwner';
 import settings from '../../settings';
 
 const useStyles = makeStyles(theme => ({
 
     root: {
-
-    },
-    comment: {
+        minWidth: 400,
         maxWidth: 600
-    }
+    },
+
 }))
 
 const send = async (config) => {
@@ -50,7 +52,6 @@ const send = async (config) => {
 const CodeScanned = ({code}) => {
 
     const classes = useStyles()
-    const [translate] = useTranslate()
     
     const [company_id, setCompanyId] = useState(null)
     const [comment, setComment] = useState("")
@@ -105,9 +106,11 @@ const CodeScanned = ({code}) => {
 
     return (<Wrapper>
         <Box>
-            <Typography variant="h6" gutterBottom>{commentSynced ? `Saved!`: `Contact saved. Comment?`}</Typography>
+            <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
+            <Grid item>
+            <Box className={classes.root}>
+            <Typography variant="h4" gutterBottom>{commentSynced ? `Comment saved!`: `Contact saved. Comment? (optional)`}</Typography>
             <TextField 
-                className={classes.comment} 
                 id="comment" 
                 label="Type comment here" 
                 value={comment} 
@@ -119,9 +122,23 @@ const CodeScanned = ({code}) => {
             /><br />
             <Button 
                 onClick={handleSendComment} 
-                variant="contained" 
+                variant="outlined" 
                 color="primary">Send Comment
             </Button>
+            </Box>
+
+            </Grid>
+            <Grid item>
+
+            <ScanOwner 
+                logotype={lsGet("company_logotype")} 
+                name={lsGet("company_name")} 
+                title="Saved for" 
+            />    
+            
+            </Grid>
+
+            </Grid>
         </Box>
     </Wrapper>);
 

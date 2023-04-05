@@ -1,25 +1,20 @@
 import React, {useEffect} from 'react'
 import {
-connect,
-configure,
-reduxWrapper,
-Wrapper,
-MyButton as Button,
-lsSet,
-lsGet,
-Box,
-useTranslate,
-Avatar,
-resizeCloudinaryImage,
-Grid,
-makeStyles,
-Typography,
-get,
-useRouter
+  connect,
+  configure,
+  reduxWrapper,
+  Wrapper,
+  lsSet,
+  lsGet,
+  Box,
+  Grid,
+  makeStyles,
+  Typography,
+  get,
+  useRouter
 } from 'eventjuicer-site-components';
 
-import Link from 'next/link'
-
+import ScanOwner from '../../components/ScanOwner';
 import settings from '../../settings';
 
 const useStyles = makeStyles(theme => ({ 
@@ -42,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 
 const PageCompany = ({company, id}) => {
 
-  const [translate] = useTranslate()
   const classes = useStyles()
   const {push} = useRouter()
 
@@ -50,7 +44,11 @@ const PageCompany = ({company, id}) => {
     const unsaved = lsGet("unsaved")
 
     if(id > 0){
+      
       lsSet("company_id", id)
+      lsSet("company_name", get(company, "profile.name", get(company, "slug")))
+      lsSet("company_logotype", get(company, "profile.logotype_cdn"), "")
+
       if(unsaved){
         lsSet("unsaved", null)
         push(`/p/${unsaved}`)
@@ -64,14 +62,14 @@ const PageCompany = ({company, id}) => {
   <Box m={8}>
   <Grid className={classes.root} container direction="column" justifyContent="center" alignItems="center">
   <Grid item>
-    {company && <Avatar variant="square" src={ resizeCloudinaryImage(get(company, "profile.logotype_cdn"), 300, 300) } classes={{
-              root:classes.avatarContainer,
-              img: classes.avatarImg
-    }}/>}
+    <Typography variant="h1" align="center">Ready!</Typography>
     </Grid>
     <Grid item>
-      <Typography variant="h4">Ready!</Typography>
-      <Typography variant="overline"><Link href="/">Back to company selection</Link></Typography>
+
+    <ScanOwner 
+      name={get(company, "profile.name", get(company, "slug")) } 
+      logotype={get(company, "profile.logotype_cdn") } 
+    />
 
     </Grid>
   </Grid>
